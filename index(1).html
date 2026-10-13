@@ -1,0 +1,837 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الأعداد من 1 إلى 5 (الصفحة 14 من الكتاب)</title>
+
+<style>
+:root {
+  --blue:#2563eb;
+  --green:#22b573;
+  --orange:#ff963c;
+  --ink:#263451;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  font-family:Tahoma,Arial,sans-serif;
+  background:#f0f6ff;
+  color:var(--ink);
+  line-height:1.8;
+}
+button { font-family:inherit; cursor:pointer; }
+button:focus-visible { outline:3px solid #ffb703; outline-offset:3px; }
+
+.hero {
+  background:linear-gradient(125deg,#1747d4,#287cf5 60%,#22c1dc);
+  color:white;
+  padding:24px 16px 28px;
+  text-align:center;
+  border-radius:0 0 32px 32px;
+}
+.page-number {
+  display:inline-block;
+  background:#ffffff30;
+  border:1px solid #ffffff60;
+  border-radius:25px;
+  padding:3px 18px;
+}
+.hero h1 { margin:8px 0; font-size:clamp(25px,5vw,38px); }
+.hero p { margin:4px 0; }
+
+.container { width:min(100% - 24px,960px); margin:22px auto 40px; }
+.progress-box {
+  background:white;
+  padding:14px 18px;
+  border-radius:18px;
+  margin-bottom:20px;
+}
+.progress-label { display:flex; justify-content:space-between; gap:10px; font-weight:bold; font-size:14px; }
+.progress-track { background:#e8eef9; height:12px; border-radius:20px; overflow:hidden; margin-top:7px; }
+#progressBar { background:linear-gradient(90deg,#22c1dc,#22b573); width:0; height:100%; transition:width .4s; }
+
+.section {
+  display:none;
+  background:white;
+  padding:clamp(16px,4vw,30px);
+  border-radius:25px;
+  margin-bottom:20px;
+  box-shadow:0 5px 20px #1d37600c;
+  border:2px solid #e7efff;
+  animation:appear .3s ease;
+}
+.section.active { display:block; }
+@keyframes appear {
+  from { opacity:0; transform:translateY(7px); }
+  to { opacity:1; transform:translateY(0); }
+}
+.section h2 { margin-top:0; color:#1747d4; font-size:clamp(22px,4vw,29px); }
+.subtitle { color:#66738d; margin-top:-8px; }
+
+.rule-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(125px,1fr)); gap:12px; }
+.rule-card { border:2px solid #e1eaff; border-radius:20px; padding:14px 8px; background:#f8faff; text-align:center; }
+.big-number { font-size:42px; font-weight:900; color:var(--blue); line-height:1.25; }
+.objects { font-size:29px; min-height:48px; line-height:1.5; overflow-wrap:anywhere; }
+.small-btn { background:#e6efff; color:#1747d4; border-radius:12px; padding:7px 13px; font-weight:bold; margin-top:8px; }
+.tip { padding:13px 16px; background:#fff7d8; border-right:5px solid #ffca28; border-radius:12px; margin:16px 0; }
+.primary-btn { background:linear-gradient(110deg,#245ce5,#438bff); color:white; padding:13px 25px; border-radius:15px; font-weight:bold; font-size:16px; }
+.secondary-btn { background:#edf2ff; color:#244db5; padding:12px 20px; border-radius:14px; font-weight:bold; font-size:15px; }
+.center { text-align:center; }
+
+.question-count { display:inline-block; background:#eaf2ff; color:#245ce5; border-radius:20px; padding:4px 13px; font-weight:bold; margin-bottom:10px; }
+.question { font-size:clamp(20px,4vw,26px); font-weight:bold; margin:10px 0 20px; }
+.picture-box { background:#f8faff; border:2px dashed #b9cdfb; border-radius:20px; padding:20px 12px; margin:14px 0 20px; }
+.picture-box .objects { font-size:clamp(32px,7vw,49px); }
+.options { display:grid; grid-template-columns:repeat(auto-fit,minmax(95px,1fr)); gap:11px; margin:18px 0; }
+.option { padding:14px 10px; border:2px solid #dce7ff; background:white; color:var(--ink); border-radius:16px; font-size:21px; font-weight:bold; min-height:60px; }
+.option:hover:not(:disabled) { background:#edf4ff; border-color:#6a9bff; }
+.option.correct { background:#d8f8e7; border-color:#22b573; color:#087642; }
+.option.wrong { background:#ffe2e5; border-color:#f16a7d; color:#ad233a; }
+.option:disabled { cursor:default; }
+.feedback { min-height:40px; padding:10px; margin:10px 0; border-radius:12px; font-weight:bold; }
+.feedback:empty { padding:0; min-height:5px; }
+.feedback.good { background:#e0f9ec; color:#087642; }
+.feedback.bad { background:#fff0f0; color:#b42335; }
+
+.color-circles {
+  display:grid;
+  grid-template-columns:repeat(5,minmax(40px,75px));
+  justify-content:center;
+  gap:12px;
+  margin:22px 0;
+}
+.paint-circle {
+  width:100%;
+  aspect-ratio:1;
+  border-radius:50%;
+  background:white;
+  border:3px solid #9aa3b3;
+  box-shadow:inset 0 0 0 3px white;
+  padding:0;
+}
+.paint-circle.filled-red { background:#ff8b24; }
+.paint-circle.filled-blue { background:#3178ff; }
+.paint-circle.filled-green { background:#28bd72; }
+
+.color-legend { display:flex; justify-content:center; gap:8px; flex-wrap:wrap; }
+.color-button { border:3px solid white; outline:2px solid #d7dfef; border-radius:12px; padding:9px 12px; background:white; font-weight:bold; }
+.color-button.selected { outline:3px solid #263451; }
+.color-dot { display:inline-block; width:15px; height:15px; border-radius:50%; vertical-align:middle; margin-left:4px; }
+.red { background:#ff8b24; }
+.blue { background:#3178ff; }
+.green { background:#28bd72; }
+
+.dice {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  grid-template-rows:repeat(3,1fr);
+  gap:5px;
+  width:72px;
+  height:72px;
+  padding:9px;
+  background:#ffb84e;
+  border:3px solid #ff8a36;
+  border-radius:15px;
+  margin:auto;
+}
+.dice span { background:#e94e40; width:11px; height:11px; border-radius:50%; align-self:center; justify-self:center; visibility:hidden; }
+.dice span.show { visibility:visible; }
+
+.match-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(125px,1fr)); gap:12px; }
+.match-card { background:#fff9ec; border:2px solid #ffdfa3; padding:14px 7px; border-radius:18px; text-align:center; }
+.match-card .objects { font-size:27px; }
+.match-options { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-top:10px; }
+.match-options button { background:white; border:2px solid #e2d4bd; border-radius:10px; padding:6px 10px; font-size:18px; font-weight:bold; }
+.match-options button:disabled { opacity:.65; }
+.match-options button.selected-match { background:#d9f8e7; border-color:#22b573; }
+
+.result-card { text-align:center; background:linear-gradient(140deg,#edf5ff,#fff8e3); border-radius:24px; padding:25px 15px; }
+.result-score { font-size:55px; font-weight:900; color:#245ce5; }
+.star { font-size:45px; }
+.navigation { display:flex; justify-content:space-between; align-items:center; gap:10px; margin:22px 0; }
+.navigation button:disabled { opacity:.35; cursor:not-allowed; }
+footer { text-align:center; padding:12px; color:#71809b; font-size:13px; }
+
+@media(max-width:480px) {
+  .container { width:calc(100% - 16px); }
+  .section { padding:17px 13px; border-radius:20px; }
+  .rule-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .color-circles { grid-template-columns:repeat(3,minmax(45px,65px)); gap:10px; }
+  .navigation button { padding:10px 12px; font-size:14px; }
+}
+</style>
+</head>
+
+<body>
+
+<header class="hero">
+  <div class="page-number">الصفحة 14 من الكتاب</div>
+  <h1>الأعداد من 1 إلى 5</h1>
+  <p>نتعلّم ونعدّ ونلعب وننجح!</p>
+</header>
+
+<main class="container">
+
+<div class="progress-box">
+  <div class="progress-label">
+    <span id="stageLabel">المرحلة 1: شرح القاعدة</span>
+    <span id="scoreLabel">⭐ 0 نقطة</span>
+  </div>
+  <div class="progress-track"><div id="progressBar"></div></div>
+</div>
+
+<section class="section active" data-stage="0">
+  <h2>أولًا: أكتشف القاعدة</h2>
+  <p class="subtitle">انظر إلى الصور، وعدّ الأشياء، ثم اضغط على العدد لتسمع اسمه.</p>
+  <div class="rule-grid" id="ruleGrid"></div>
+
+  <div class="tip">
+    <strong>أتذكّر:</strong>
+    لكل مجموعة عدد يمثّل الأشياء الموجودة فيها.
+    أعدّ الأشياء واحدًا بعد الآخر، ثم أختار العدد المناسب.
+  </div>
+
+  <div class="tip center">
+    <strong>أقرأ الأعداد وأرتّبها:</strong>
+    <div style="font-size:32px;color:#2563eb;font-weight:bold;direction:ltr">1　 2　 3　 4　 5</div>
+    <p>واحد، اثنان، ثلاثة، أربعة، خمسة.</p>
+    <button class="secondary-btn" onclick="speak('وَاحِد، اِثْنَان، ثَلَاثَة، أَرْبَعَة، خَمْسَة')">استمع إلى الأعداد</button>
+  </div>
+
+  <div class="center">
+    <button class="primary-btn" onclick="goTo(1)">هيا نلعب!</button>
+  </div>
+</section>
+
+<section class="section" data-stage="1">
+  <h2>اللعبة الأولى: كم عدد الأشياء؟</h2>
+  <p class="subtitle">عدّ الأشياء الموجودة في الصورة واختر العدد الصحيح.</p>
+  <div class="center">
+    <span class="question-count" id="countProgress"></span>
+    <div class="question" id="countQuestion"></div>
+    <div class="picture-box"><div class="objects" id="countObjects"></div></div>
+    <div class="options" id="countOptions"></div>
+    <div class="feedback" id="countFeedback" aria-live="polite"></div>
+    <button class="primary-btn" id="countNext" onclick="nextCount()" hidden>السؤال التالي</button>
+  </div>
+</section>
+
+<section class="section" data-stage="2">
+  <h2>اللعبة الثانية: ألوّن حسب التعليمات</h2>
+  <p class="subtitle">اختر اللون، ثم اضغط على الدوائر لتلوينها.</p>
+  <div class="tip" id="paintInstruction"></div>
+
+  <div class="color-legend">
+    <button class="color-button selected" data-color="red" onclick="selectColor('red',this)"><span class="color-dot red"></span> برتقالي</button>
+    <button class="color-button" data-color="blue" onclick="selectColor('blue',this)"><span class="color-dot blue"></span> أزرق</button>
+    <button class="color-button" data-color="green" onclick="selectColor('green',this)"><span class="color-dot green"></span> أخضر</button>
+  </div>
+
+  <div class="color-circles" id="colorCircles"></div>
+
+  <div class="center">
+    <div class="feedback" id="paintFeedback" aria-live="polite"></div>
+    <button class="primary-btn" onclick="checkPaint()">تحقّق من الألوان</button>
+    <button class="secondary-btn" onclick="resetPaint()">إعادة التلوين</button>
+  </div>
+</section>
+
+<section class="section" data-stage="3">
+  <h2>اللعبة الثالثة: أربط النرد بالعدد</h2>
+  <p class="subtitle">شاهد نقاط النرد، ثم اضغط على العدد الذي يمثّلها.</p>
+  <div class="match-grid" id="matchGrid"></div>
+  <div class="tip center" id="matchFeedback">اختر العدد المناسب لكل بطاقة.</div>
+  <div class="center">
+    <button class="primary-btn" onclick="checkMatch()">تحقّق من الإجابات</button>
+    <button class="secondary-btn" onclick="resetMatch()">إعادة اللعبة</button>
+  </div>
+</section>
+
+<section class="section" data-stage="4">
+  <h2>اللعبة الرابعة: اختر الإجابة الصحيحة</h2>
+  <p class="subtitle">فكّر جيدًا قبل اختيار الإجابة.</p>
+  <div class="center">
+    <span class="question-count" id="quizProgress"></span>
+    <div class="question" id="quizQuestion"></div>
+    <div class="picture-box" id="quizPicture"></div>
+    <div class="options" id="quizOptions"></div>
+    <div class="feedback" id="quizFeedback" aria-live="polite"></div>
+    <button class="primary-btn" id="quizNext" onclick="nextQuiz()" hidden>السؤال التالي</button>
+  </div>
+</section>
+
+<section class="section" data-stage="5">
+  <h2>اللعبة الخامسة: صحيح أم خطأ؟</h2>
+  <p class="subtitle">اقرأ العبارة، ثم اختر الإجابة.</p>
+  <div class="center">
+    <span class="question-count" id="tfProgress"></span>
+    <div class="question" id="tfQuestion"></div>
+    <div class="picture-box" id="tfPicture"></div>
+    <div class="options">
+      <button class="option" onclick="answerTF(true,this)">صحيح</button>
+      <button class="option" onclick="answerTF(false,this)">خطأ</button>
+    </div>
+    <div class="feedback" id="tfFeedback" aria-live="polite"></div>
+    <button class="primary-btn" id="tfNext" onclick="nextTF()" hidden>العبارة التالية</button>
+  </div>
+</section>
+
+<section class="section" data-stage="6">
+  <h2 class="center">أَحْسَنْتَ يا بطل!</h2>
+  <div class="result-card">
+    <div class="star" id="resultStars">🌟</div>
+    <div class="result-score" id="finalScore">0</div>
+    <p id="resultMessage"></p>
+    <p id="resultDetails"></p>
+    <button class="primary-btn" onclick="restartGame()">العب من جديد</button>
+  </div>
+  <div class="tip">تذكّر: أعدّ الأشياء واحدةً واحدةً، ثم أختار العدد الذي يمثّلها.</div>
+</section>
+
+<div class="navigation">
+  <button class="secondary-btn" id="prevBtn" onclick="navigate(-1)" disabled>السابق</button>
+  <span id="navLabel">شرح القاعدة</span>
+  <button class="primary-btn" id="nextBtn" onclick="navigate(1)">التالي</button>
+</div>
+
+</main>
+<footer>منصة الرياضيات التفاعلية · الأعداد من 1 إلى 5 · الصفحة 14</footer>
+
+<script>
+"use strict";
+
+const numberWords = {
+  1:"وَاحِد",
+  2:"اِثْنَان",
+  3:"ثَلَاثَة",
+  4:"أَرْبَعَة",
+  5:"خَمْسَة"
+};
+
+const voicePhrases = {
+  correct:"أَحْسَنْتَ، إِجَابَةٌ صَحِيحَةٌ",
+  coloring:"أَحْسَنْتَ، تَلْوِينٌ صَحِيحٌ",
+  excellent:"أَحْسَنْتَ، كُلُّ الإِجَابَاتِ صَحِيحَةٌ",
+  tryAgain:"حَاوِلْ مَرَّةً أُخْرَى"
+};
+
+const lessonItems = [
+  {name:"الطيور",icon:"🐦",count:5},
+  {name:"الكراسي",icon:"🪑",count:2},
+  {name:"الأطفال",icon:"🧒",count:1},
+  {name:"الخيام",icon:"⛺",count:4},
+  {name:"الأشجار",icon:"🌳",count:5}
+];
+
+let stage=0;
+let score=0;
+let answeredQuestions=new Set();
+let currentColor="red";
+let paintTask=null;
+let countIndex=0;
+let quizIndex=0;
+let tfIndex=0;
+let matchAnswers={};
+let matchChecked=false;
+let paintChecked=false;
+let countQuestions=[];
+let quizQuestions=[];
+let tfQuestions=[];
+
+function shuffle(array) {
+  const result=[...array];
+  for(let i=result.length-1;i>0;i--) {
+    const j=Math.floor(Math.random()*(i+1));
+    [result[i],result[j]]=[result[j],result[i]];
+  }
+  return result;
+}
+
+function shuffledNumbers() {
+  return shuffle([1,2,3,4,5]);
+}
+
+function speak(text) {
+  if(!("speechSynthesis" in window)) {
+    alert(text);
+    return;
+  }
+  window.speechSynthesis.cancel();
+  const utterance=new SpeechSynthesisUtterance(text);
+  utterance.lang="ar-SA";
+  utterance.rate=0.78;
+  utterance.pitch=1;
+  const voices=window.speechSynthesis.getVoices();
+  const voice=voices.find(v=>v.lang.toLowerCase().startsWith("ar"));
+  if(voice) utterance.voice=voice;
+  window.speechSynthesis.speak(utterance);
+}
+
+function addScore(id,points) {
+  if(answeredQuestions.has(id)) return;
+  answeredQuestions.add(id);
+  score+=points;
+  updateProgress();
+}
+
+function updateProgress() {
+  document.getElementById("scoreLabel").textContent=`⭐ ${score} نقطة`;
+  document.getElementById("progressBar").style.width=`${(stage/6)*100}%`;
+}
+
+const stageNames=[
+  "شرح القاعدة","عدّ الأشياء","التلوين",
+  "لعبة النرد","اختر الإجابة","صحيح أم خطأ","النتيجة النهائية"
+];
+
+function goTo(newStage) {
+  stage=Math.max(0,Math.min(6,newStage));
+  document.querySelectorAll(".section").forEach(section=>{
+    section.classList.toggle("active",Number(section.dataset.stage)===stage);
+  });
+  document.getElementById("stageLabel").textContent=`المرحلة ${stage+1}: ${stageNames[stage]}`;
+  document.getElementById("navLabel").textContent=stageNames[stage];
+  document.getElementById("prevBtn").disabled=stage===0;
+  document.getElementById("nextBtn").hidden=stage===6;
+  document.getElementById("nextBtn").textContent=stage===5?"عرض النتيجة":"التالي";
+  updateProgress();
+  if(stage===6) showFinalResult();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function navigate(direction) {
+  goTo(stage+direction);
+}
+
+/* شرح القاعدة */
+function renderRules() {
+  const grid=document.getElementById("ruleGrid");
+  grid.innerHTML="";
+  for(let n=1;n<=5;n++) {
+    const card=document.createElement("div");
+    card.className="rule-card";
+    card.innerHTML=`
+      <div class="big-number">${n}</div>
+      <div class="objects">${Array(n).fill("⭐").join(" ")}</div>
+      <div>${numberWords[n]}</div>
+      <div style="font-size:22px;color:#2563eb;font-weight:bold">${n}</div>
+      <button class="small-btn" type="button">استمع إلى العدد</button>`;
+    card.querySelector("button").addEventListener("click",()=>speak(numberWords[n]));
+    grid.appendChild(card);
+  }
+}
+
+/* اللعبة الأولى */
+function makeCountQuestions() {
+  countQuestions=shuffle(lessonItems).map((item,i)=>({...item,id:`count-${i}`}));
+  countIndex=0;
+  renderCountQuestion();
+}
+
+function renderCountQuestion() {
+  const q=countQuestions[countIndex];
+  document.getElementById("countProgress").textContent=`السؤال ${countIndex+1} من ${countQuestions.length}`;
+  document.getElementById("countQuestion").textContent=`كم عدد ${q.name}؟`;
+  document.getElementById("countObjects").textContent=Array(q.count).fill(q.icon).join(" ");
+
+  const options=document.getElementById("countOptions");
+  options.innerHTML="";
+  options.dataset.answered="no";
+
+  shuffledNumbers().forEach(n=>{
+    const btn=document.createElement("button");
+    btn.className="option";
+    btn.textContent=n;
+    btn.onclick=()=>{
+      if(options.dataset.answered==="yes") return;
+      options.dataset.answered="yes";
+      const feedback=document.getElementById("countFeedback");
+      if(n===q.count) {
+        btn.classList.add("correct");
+        feedback.className="feedback good";
+        feedback.textContent="أَحْسَنْتَ! إجابة صحيحة.";
+        speak(voicePhrases.correct);
+        addScore(q.id,10);
+      } else {
+        btn.classList.add("wrong");
+        feedback.className="feedback bad";
+        feedback.textContent=`حاول مرة أخرى. العدد الصحيح هو ${q.count}.`;
+        speak(voicePhrases.tryAgain);
+        [...options.children].forEach(b=>{
+          if(Number(b.textContent)===q.count) b.classList.add("correct");
+        });
+      }
+      [...options.children].forEach(b=>b.disabled=true);
+      document.getElementById("countNext").hidden=false;
+    };
+    options.appendChild(btn);
+  });
+
+  document.getElementById("countFeedback").textContent="";
+  document.getElementById("countFeedback").className="feedback";
+  document.getElementById("countNext").hidden=true;
+}
+
+function nextCount() {
+  countIndex++;
+  if(countIndex>=countQuestions.length) { goTo(2); return; }
+  renderCountQuestion();
+}
+
+/* اللعبة الثانية: التلوين — 10 دوائر */
+function makePaintTask() {
+  const n=Math.floor(Math.random()*5)+1;
+  paintTask={orange:n,blue:3,green:2};
+  paintChecked=false;
+  currentColor="red";
+
+  document.querySelectorAll(".color-button").forEach(btn=>{
+    btn.classList.toggle("selected",btn.dataset.color==="red");
+  });
+
+  document.getElementById("paintInstruction").innerHTML=
+    `لوّن <strong>${numberWords[n]}</strong> ${n===1?"دائرة":"دوائر"} بالبرتقالي،
+    و<strong>ثلاث</strong> دوائر بالأزرق، و<strong>دائرتين</strong> بالأخضر.
+    لديك 10 دوائر؛ لوّن العدد المطلوب واترك الدوائر المتبقية بيضاء.`;
+
+  const circles=document.getElementById("colorCircles");
+  circles.innerHTML="";
+
+  /* إنشاء عشر دوائر كاملة */
+  for(let i=0;i<10;i++) {
+    const btn=document.createElement("button");
+    btn.type="button";
+    btn.className="paint-circle";
+    btn.setAttribute("aria-label",`الدائرة ${i+1}`);
+    btn.dataset.color="";
+    btn.onclick=()=>{
+      if(paintChecked) return;
+      btn.className="paint-circle";
+      btn.classList.add(`filled-${currentColor}`);
+      btn.dataset.color=currentColor;
+    };
+    circles.appendChild(btn);
+  }
+
+  document.getElementById("paintFeedback").textContent="";
+  document.getElementById("paintFeedback").className="feedback";
+}
+
+function selectColor(color,button) {
+  if(paintChecked) return;
+  currentColor=color;
+  document.querySelectorAll(".color-button").forEach(btn=>btn.classList.remove("selected"));
+  button.classList.add("selected");
+}
+
+function checkPaint() {
+  if(paintChecked) return;
+
+  const circles=[...document.querySelectorAll(".paint-circle")];
+  const counts={red:0,blue:0,green:0};
+
+  circles.forEach(circle=>{
+    if(Object.hasOwn(counts,circle.dataset.color)) counts[circle.dataset.color]++;
+  });
+
+  const good=
+    counts.red===paintTask.orange &&
+    counts.blue===paintTask.blue &&
+    counts.green===paintTask.green;
+
+  const feedback=document.getElementById("paintFeedback");
+
+  if(good) {
+    paintChecked=true;
+    feedback.className="feedback good";
+    feedback.textContent="أَحْسَنْتَ! لوّنت الدوائر كما طُلب منك.";
+    speak(voicePhrases.coloring);
+    addScore("paint",10);
+  } else {
+    feedback.className="feedback bad";
+    feedback.textContent=
+      `راجع الألوان: البرتقالي ${paintTask.orange}، الأزرق 3، الأخضر 2. تأكد من عدد الدوائر الملوّنة بكل لون.`;
+    speak(voicePhrases.tryAgain);
+  }
+}
+
+function resetPaint() {
+  makePaintTask();
+}
+
+/* لعبة النرد */
+function diceHTML(n) {
+  const layouts={
+    1:[5],2:[1,9],3:[1,5,9],4:[1,3,7,9],5:[1,3,5,7,9]
+  };
+  return `<div class="dice" aria-label="${n} نقاط">${
+    Array.from({length:9},(_,i)=>
+      `<span class="${layouts[n].includes(i+1)?"show":""}"></span>`
+    ).join("")
+  }</div>`;
+}
+
+function makeMatch() {
+  matchAnswers={};
+  matchChecked=false;
+  const values=shuffle([1,2,3,4,5]);
+  const grid=document.getElementById("matchGrid");
+  grid.innerHTML="";
+
+  values.forEach((n,index)=>{
+    const card=document.createElement("div");
+    card.className="match-card";
+    card.dataset.correct=n;
+    card.dataset.id=`match-${index}`;
+    card.innerHTML=`${diceHTML(n)}
+      <div class="match-options">
+        ${shuffledNumbers().map(v=>`<button type="button" data-value="${v}">${v}</button>`).join("")}
+      </div>`;
+
+    card.querySelectorAll("button").forEach(btn=>{
+      btn.onclick=()=>{
+        if(matchChecked) return;
+        card.querySelectorAll("button").forEach(b=>b.classList.remove("selected-match"));
+        btn.classList.add("selected-match");
+        matchAnswers[card.dataset.id]=Number(btn.dataset.value);
+      };
+    });
+    grid.appendChild(card);
+  });
+
+  document.getElementById("matchFeedback").textContent="اختر العدد المناسب لكل بطاقة.";
+  document.getElementById("matchFeedback").className="tip center";
+}
+
+function checkMatch() {
+  if(matchChecked) return;
+  const cards=[...document.querySelectorAll(".match-card")];
+  let correct=0;
+  let complete=true;
+
+  cards.forEach(card=>{
+    const id=card.dataset.id;
+    const answer=matchAnswers[id];
+    const expected=Number(card.dataset.correct);
+    if(answer===undefined) { complete=false; return; }
+
+    const selected=[...card.querySelectorAll("button")].find(
+      btn=>Number(btn.dataset.value)===answer
+    );
+    if(answer===expected) {
+      correct++;
+      if(selected) selected.classList.add("selected-match");
+    } else if(selected) {
+      selected.style.background="#ffe2e5";
+    }
+  });
+
+  const feedback=document.getElementById("matchFeedback");
+  if(!complete) {
+    feedback.textContent="أكمل جميع البطاقات أولًا.";
+    feedback.className="tip center";
+    return;
+  }
+
+  matchChecked=true;
+  if(correct===5) {
+    feedback.textContent="أَحْسَنْتَ! كل الأعداد صحيحة.";
+    feedback.className="feedback good center";
+    speak(voicePhrases.excellent);
+  } else {
+    feedback.textContent=`أجبت إجابة صحيحة عن ${correct} بطاقات من 5.`;
+    feedback.className="feedback bad center";
+  }
+
+  addScore("match",correct*2);
+  cards.forEach(card=>card.querySelectorAll("button").forEach(btn=>btn.disabled=true));
+}
+
+function resetMatch() {
+  makeMatch();
+}
+
+/* اللعبة الرابعة */
+function makeQuizQuestions() {
+  const base=[
+    {question:"ما العدد الذي يمثّل شيئًا واحدًا؟",picture:"⭐",answer:"1",options:["3","1","5"]},
+    {question:"أي مجموعة تحتوي على 3 أشياء؟",picture:"اختر المجموعة المناسبة",answer:"🍎 🍎 🍎",options:["🍎","🍎 🍎 🍎","🍎 🍎 🍎 🍎 🍎"]},
+    {question:"ما العدد الذي يأتي بعد 2؟",picture:"1 → 2 → ؟ → 4",answer:"3",options:["5","1","3"]},
+    {question:"كم شجرة نرى هنا؟",picture:"🌳 🌳 🌳 🌳",answer:"4",options:["2","5","4"]},
+    {question:"ما العدد الذي يمثّل خمس نجوم؟",picture:"⭐ ⭐ ⭐ ⭐ ⭐",answer:"5",options:["3","5","2"]}
+  ];
+
+  quizQuestions=shuffle(base).map((q,i)=>({...q,id:`quiz-${i}`}));
+  quizIndex=0;
+  renderQuiz();
+}
+
+function renderQuiz() {
+  const q=quizQuestions[quizIndex];
+  document.getElementById("quizProgress").textContent=`السؤال ${quizIndex+1} من ${quizQuestions.length}`;
+  document.getElementById("quizQuestion").textContent=q.question;
+  document.getElementById("quizPicture").innerHTML=`<div class="objects">${q.picture}</div>`;
+
+  const options=document.getElementById("quizOptions");
+  options.innerHTML="";
+  options.dataset.answered="no";
+
+  shuffle(q.options).forEach(value=>{
+    const btn=document.createElement("button");
+    btn.className="option";
+    btn.textContent=value;
+    btn.onclick=()=>{
+      if(options.dataset.answered==="yes") return;
+      options.dataset.answered="yes";
+      const feedback=document.getElementById("quizFeedback");
+
+      if(value===q.answer) {
+        btn.classList.add("correct");
+        feedback.className="feedback good";
+        feedback.textContent="أَحْسَنْتَ! إجابة صحيحة.";
+        speak(voicePhrases.correct);
+        addScore(q.id,10);
+      } else {
+        btn.classList.add("wrong");
+        feedback.className="feedback bad";
+        feedback.textContent=`الإجابة الصحيحة هي: ${q.answer}`;
+        speak(voicePhrases.tryAgain);
+        [...options.children].forEach(b=>{
+          if(b.textContent===q.answer) b.classList.add("correct");
+        });
+      }
+
+      [...options.children].forEach(b=>b.disabled=true);
+      document.getElementById("quizNext").hidden=false;
+    };
+    options.appendChild(btn);
+  });
+
+  document.getElementById("quizFeedback").textContent="";
+  document.getElementById("quizFeedback").className="feedback";
+  document.getElementById("quizNext").hidden=true;
+}
+
+function nextQuiz() {
+  quizIndex++;
+  if(quizIndex>=quizQuestions.length) { goTo(5); return; }
+  renderQuiz();
+}
+
+/* اللعبة الخامسة */
+function makeTFQuestions() {
+  const base=[
+    {text:"العدد 1 يمثّل شيئًا واحدًا.",picture:"⭐",answer:true},
+    {text:"عدد النجوم هنا هو 4.",picture:"⭐ ⭐ ⭐",answer:false},
+    {text:"العدد الذي يأتي بعد 3 هو 4.",picture:"1 - 2 - 3 - 4 - 5",answer:true},
+    {text:"هذه المجموعة تحتوي على 5 أشياء.",picture:"🍎 🍎",answer:false},
+    {text:"العدد 5 أكبر من العدد 2.",picture:"5 > 2",answer:true}
+  ];
+
+  tfQuestions=shuffle(base).map((q,i)=>({...q,id:`tf-${i}`}));
+  tfIndex=0;
+  renderTF();
+}
+
+function renderTF() {
+  const q=tfQuestions[tfIndex];
+  document.getElementById("tfProgress").textContent=`العبارة ${tfIndex+1} من ${tfQuestions.length}`;
+  document.getElementById("tfQuestion").textContent=q.text;
+  document.getElementById("tfPicture").innerHTML=`<div class="objects">${q.picture}</div>`;
+  document.getElementById("tfFeedback").textContent="";
+  document.getElementById("tfFeedback").className="feedback";
+  document.getElementById("tfNext").hidden=true;
+
+  document.querySelectorAll('[data-stage="5"] .option').forEach(btn=>{
+    btn.disabled=false;
+    btn.classList.remove("correct","wrong");
+  });
+}
+
+function answerTF(answer,button) {
+  const q=tfQuestions[tfIndex];
+  if(!document.getElementById("tfNext").hidden) return;
+
+  const feedback=document.getElementById("tfFeedback");
+  const buttons=document.querySelectorAll('[data-stage="5"] .option');
+  buttons.forEach(btn=>btn.disabled=true);
+
+  if(answer===q.answer) {
+    button.classList.add("correct");
+    feedback.className="feedback good";
+    feedback.textContent="أَحْسَنْتَ! إجابة صحيحة.";
+    speak(voicePhrases.correct);
+    addScore(q.id,10);
+  } else {
+    button.classList.add("wrong");
+    feedback.className="feedback bad";
+    feedback.textContent=q.answer?"العبارة صحيحة.":"العبارة خطأ.";
+    buttons.forEach(btn=>{
+      if((btn.textContent==="صحيح" && q.answer) ||
+         (btn.textContent==="خطأ" && !q.answer)) btn.classList.add("correct");
+    });
+    speak(voicePhrases.tryAgain);
+  }
+
+  document.getElementById("tfNext").hidden=false;
+}
+
+function nextTF() {
+  tfIndex++;
+  if(tfIndex>=tfQuestions.length) { goTo(6); return; }
+  renderTF();
+}
+
+/* النتيجة النهائية */
+function showFinalResult() {
+  document.getElementById("finalScore").textContent=score;
+  const maxScore=130;
+  const percent=Math.round((score/maxScore)*100);
+  let message,stars;
+
+  if(percent>=85) {
+    message="ممتاز! أنت بطل الأعداد من 1 إلى 5!";
+    stars="🏆🌟🌟🌟";
+  } else if(percent>=60) {
+    message="عمل رائع! واصل التدرّب لتصبح أفضل.";
+    stars="🌟🌟";
+  } else {
+    message="بداية جميلة! راجع القاعدة وحاول من جديد.";
+    stars="⭐";
+  }
+
+  document.getElementById("resultStars").textContent=stars;
+  document.getElementById("resultMessage").textContent=message;
+  document.getElementById("resultDetails").textContent=`حصلت على ${score} نقطة من ${maxScore} نقطة ممكنة.`;
+  document.getElementById("progressBar").style.width="100%";
+  document.getElementById("stageLabel").textContent="انتهت المغامرة!";
+}
+
+function restartGame() {
+  score=0;
+  answeredQuestions=new Set();
+  countIndex=0;
+  quizIndex=0;
+  tfIndex=0;
+  makeCountQuestions();
+  makePaintTask();
+  makeMatch();
+  makeQuizQuestions();
+  makeTFQuestions();
+  goTo(0);
+}
+
+/* تشغيل المنصة */
+renderRules();
+makeCountQuestions();
+makePaintTask();
+makeMatch();
+makeQuizQuestions();
+makeTFQuestions();
+updateProgress();
+</script>
+
+</body>
+</html>
